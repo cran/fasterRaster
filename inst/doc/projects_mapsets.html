@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Adam B. Smith" />
+
+<meta name="date" content="2024-12-15" />
+
+<title>For developers: Locations/projects and mapsets</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">For developers: Locations/projects and
+mapsets</h1>
+<h4 class="author">Adam B. Smith</h4>
+<h4 class="date">2024-12-15</h4>
+
+
+
+<p><strong>GRASS GIS</strong> uses “projects” (which used to be called
+“locations” before <strong>GRASS</strong> 8.4), and “mapsets” to store
+files (rasters, vectors, etc.). <strong>fasterRaster</strong> uses
+projects and mapsets, too, but in a manner that is invisibly to most
+users. Thus, this tutorial is mostly of interest to developers and other
+curious people.</p>
+<div id="grass-locationsprojects" class="section level2">
+<h2><strong>GRASS</strong> locations/projects</h2>
+<p>Upon starting, <strong>GRASS</strong> creates (or loads) a project,
+which corresponds to a folder on the user’s system. Importantly, all
+rasters and vectors in a project must have the same coordinate reference
+system (CRS). Confusingly, rasters and vectors in the same
+<strong>GRASS</strong> location do not necessarily have to represent the
+same place on Earth (this the renaming to “project”). In general,
+rasters and vectors can only interact with one another if they are in
+the same project and mapset. <strong>GRASS</strong> can only have a
+connection to a single project at a time.</p>
+<p><strong>fasterRaster</strong> handles projects and mapsets
+automatically, so users typically do not need to manage them. Projects
+are created on an as-needed basis. Within a given <strong>R</strong>
+session, if no projects have already been made, the first call to <a href="https://adamlilith.github.io/fasterRaster/reference/fast.html"><code>fast()</code></a>
+to create a <code>GRaster</code> or <code>GVector</code> will 1) make a
+connection to <strong>GRASS</strong> and 2) create a location with a CRS
+the same as the raster or vector. The raster or vector is then stored in
+this location. <code>fast()</code> starts the connection and creates the
+location using the exported by hidden function
+<code>.locationCreate()</code>.</p>
+<p>If <code>fast()</code> is called and a project already exists that
+has the same CRS as the raster or vector, one of two things will happen.
+First, if <strong>GRASS</strong> is already connected to that project,
+the raster or vector is simply imported. Second, if
+<strong>GRASS</strong> is not connected to the project that has the
+appropriate CRS, it will use the hidden function
+<code>.locationRestore()</code> to connect to the proper one, then
+import the raster or vector.</p>
+<p>Other functions might also cause <strong>GRASS</strong> to connect to
+a pre-existing project Generally, if a function is applied to a
+<code>GRaster</code> or <code>GVector</code>, it will first check to see
+that <strong>GRASS</strong> is connected to the project in which the
+raster or vector is stored. If not, it will use
+<code>.locationRestore()</code> to do so first.</p>
+<p>Creating a new project or switching connections to pre-existing
+project adds a few seconds to processing time of rasters and vectors. To
+avoid this, users can work as much as possible on sets of rasters and
+vectors with the same CRS (i.e., the same location).</p>
+</div>
+<div id="fasterraster-mapsets" class="section level2">
+<h2><strong>fasterRaster</strong> mapsets</h2>
+<p><strong>GRASS</strong> “mapsets” are sub-folders within a location.
+Every location <em>must</em> have a mapset (and thus, a sub-folder)
+named “PERMANENT”. Users of mapsets are intended to store sub-projects
+that use rasters and vectors with the same CRS. Users of
+<strong>GRASS</strong> can switch between mapsets. However, for
+ease-of-use and development, <strong>fasterRaster</strong> always uses
+the “PERMANENT” mapset within a given location.</p>
+</div>
+<div id="functions-that-manage-locations-and-mapsets" class="section level2">
+<h2>Functions that manage locations and mapsets</h2>
+<p>The <code>crs()</code> function (wth no arguments) can be used to get
+the coordinate reference system of the current project/location.</p>
+<p>The followoinng functions functions are hidden, but documented. All
+functions take “<code>x</code>” as an argument.</p>
+<ul>
+<li><code>.location(x)</code>: Name of the location of <code>x</code> (a
+<strong>fasterRaster</strong> object), or the current location (if
+<code>x</code> is missing).</li>
+<li><code>.locations()</code>: Names and CRSs of all available locations
+(takes no arguments).</li>
+<li><code>.locationCreate(x)</code>: Create a location with the same CRS
+as <code>x</code>.</li>
+<li><code>.locationRestore(x)</code>: Connect to a pre-existing
+location. <code>x</code> can be a <strong>fasterRaster</strong> object,
+a <code>SpatRaster</code>, <code>SpatVector</code>, or <code>sf</code>
+object, or the name of a location.</li>
+<li><code>.locationFind(x, return = &lt;option&gt;)</code>: Given a
+<code>GSpatial</code> object <code>x</code>, find the name, index, or
+CRS of a location that matches it. If <code>x</code> is missing, return
+a list of all locations. <code>&lt;option&gt;</code> can be
+<code>&quot;name&quot;</code> (name of the location), <code>&quot;index&quot;</code>
+(index), or “<code>crs</code>” (coordinate reference string in WKT
+format).</li>
+<li><code>.ls()</code>: List all file names of rasters and/or vectors in
+the current location.</li>
+<li><code>.mapset(x)</code>: Name of the mapset that contains the object
+<code>x</code>.</li>
+</ul>
+</div>
+<div id="more-rabbit-holing" class="section level2">
+<h2>More rabbit-holing</h2>
+<p>Upon being loaded or attached, <strong>fasterRaster</strong> creates
+a package-specific environment named <code>.fasterRaster</code>, where
+it keeps a list of projects at <code>.fasterRaster$locations</code>.
+This is a named list of projects, where each element is has the name of
+the location, and the value of the element is the location’s CRS. The
+current location is tracked at
+<code>.fasterRaster$activeLocation</code>.</p>
+<p>~ FINIS ~</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

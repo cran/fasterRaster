@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Adam B. Smith" />
+
+<meta name="date" content="2024-12-15" />
+
+<title>Types of GRasters</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Types of GRasters</h1>
+<h4 class="author">Adam B. Smith</h4>
+<h4 class="date">2024-12-15</h4>
+
+
+
+<p><strong>fasterRaster</strong> <code>GRaster</code>s can represent
+double-floating point numeric values, integers, or categorical/factor
+data.</p>
+<div id="double-floating-point-value" class="section level2">
+<h2>Double-floating point value</h2>
+<p>Double-floating point values are accurate to about the 15th to 17th
+decimal place. These are called “double” rasters in
+<strong>fasterRaster</strong> and <code>DCELL</code> rasters in
+<strong>GRASS</strong>. These rasters typically take the most memory.
+All <code>numeric</code> values in <strong>R</strong> are
+double-floating point values.</p>
+</div>
+<div id="floating-point-value" class="section level2">
+<h2>Floating point value</h2>
+<p>Less common that double-floating point rasters, floating point
+rasters are accurate to about the 7th decimal place. These are called
+“float” rasters in <strong>fasterRaster</strong> and <code>FCELL</code>
+rasters in <strong>GRASS</strong>. These rasters typically take less
+memory than double-floating point rasters.</p>
+</div>
+<div id="integer" class="section level2">
+<h2>Integer</h2>
+<p>Rasters that represent integers are called “integer” rasters in
+<strong>fasterRaster</strong> and <code>CELL</code> rasters in
+<strong>GRASS</strong>. You can force a raster to be an integer using <a href="https://adamlilith.github.io/fasterRaster/reference/as.int.html"><code>as.int()</code></a>.
+Some of the functions in <a href="https://adamlilith.github.io/fasterRaster/reference/app.html"><code>app()</code></a>
+function will also return integer-type rasters. Integer rasters
+typically take the least memory.</p>
+</div>
+<div id="categoricalfactor" class="section level2">
+<h2>Categorical/factor</h2>
+<p>Categorical rasters (also called “factor” rasters) are actually
+integer rasters, but have an associated attribute table that maps each
+integer value to a category label, such as “wetland” or “forest”. The
+table has at least two columns. The first is integer values, and (by
+default) the second is category names. This second column is the
+“active” category column that is used for plotting and in some
+functions. The active column can be changed using <a href="https://adamlilith.github.io/fasterRaster/reference/activeCat.html"><code>activeCat&lt;-</code></a>.</p>
+</div>
+<div id="functions-relevant-to-raster-data-types" class="section level2">
+<h2>Functions relevant to raster data types</h2>
+<div id="any-type-of-graster" class="section level3">
+<h3>Any type of <code>GRaster</code></h3>
+<ul>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/as.int.html"><code>as.int()</code></a>,
+<a href="https://adamlilith.github.io/fasterRaster/reference/as.int.html"><code>as.float()</code></a>,
+and <a href="https://adamlilith.github.io/fasterRaster/reference/as.int.html"><code>as.doub()</code></a>
+coerce a raster to an integer, float, or double.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/datatype.html"><code>datatype()</code></a>
+returns the data type of a <code>GRaster</code>.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/freq.html"><code>freq()</code></a>:
+Frequency of each category across cells of a raster</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/is.factor.html"><code>is.factor()</code></a>
+indicates if the raster is a categorical raster.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/is.int.html"><code>is.int()</code></a>,
+<a href="https://adamlilith.github.io/fasterRaster/reference/is.int.html"><code>is.float()</code></a>,
+and <a href="https://adamlilith.github.io/fasterRaster/reference/is.int.html"><code>is.doub()</code></a>
+indicate if values in a a raster are integers, floating-point, or
+double-floating point precision.</li>
+</ul>
+</div>
+<div id="categorical-grasters" class="section level3">
+<h3>Categorical <code>GRaster</code>s</h3>
+<ul>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/activeCat.html"><code>activeCat()</code></a>,
+<a href="https://adamlilith.github.io/fasterRaster/reference/activeCat.html"><code>activeCats()</code></a>,
+and <a href="https://adamlilith.github.io/fasterRaster/reference/activeCat.html"><code>activeCat&lt;-</code></a>
+can be used to see or assign which column in a “levels” table associated
+with a categorical raster is used as category labels.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/addCats.html"><code>addCats()</code></a>
+adds information to the “levels” table using
+<code>data.table::merge()</code> (same as <code>merge()</code>).</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/addCats.html"><code>addCats&lt;-</code></a>
+add new levels to a “levels” table.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/catNames.html"><code>catNames()</code></a>
+reports the column names of the “levels” table of each layer of a
+raster.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/cats.html"><code>cats()</code></a>
+returns the entire “levels” table of a categorical raster.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/combineLevels.html"><code>combineLevels()</code></a>:
+Combine the “levels” tables of two or more categorical
+<code>GRaster</code>s.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/complete.cases.html"><code>complete.cases()</code></a>
+finds rows in the levels table that have no <code>NA</code>s.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/combineCats.html"><code>concats()</code></a>
+combines levels of two or more categorical or integer rasters by
+concatenating them.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/droplevels.html"><code>droplevels()</code></a>
+removes “unused” levels in a “levels” table.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/levels.html"><code>levels()</code></a>
+returns the “levels” table of a categorical raster (just the value
+column and the active column).</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/levels.html"><code>levels&lt;-</code></a>
+and <a href="https://adamlilith.github.io/fasterRaster/reference/categories.html"><code>categories()</code></a>
+can be used to assign categories to an integer raster and make it
+categorical (i.e., a “factor” raster).</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/match.html"><code>match()</code></a>,
+<a href="https://adamlilith.github.io/fasterRaster/reference/match.html"><code>%in%</code></a>,
+and <a href="https://adamlilith.github.io/fasterRaster/reference/match.html"><code>$%notin%$</code></a>:
+Find which cells of a <code>GRaster</code> match or do not match certain
+category labels</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/missing.cases.html"><code>missing.cases()</code></a>
+finds rows in the levels table that have at least one
+<code>NA</code>.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/missingCats.html"><code>missingCats()</code></a>
+finds values in categorical rasters that do not have a category assigned
+to them.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/nlevels.html"><code>nlevels()</code></a>
+returns the number of levels represented by a categorical raster.</li>
+<li><a href="https://adamlilith.github.io/fasterRaster/reference/subst.html"><code>subst()</code></a>:
+Re-assign category levels</li>
+</ul>
+</div>
+</div>
+<div id="saving-rasters-to-disk" class="section level2">
+<h2>Saving rasters to disk</h2>
+<p>You can potentially save substantial space on disk by setting the
+<code>datatype</code> argument in <a href="https://adamlilith.github.io/fasterRaster/reference/writeRaster.html"><code>writeRaster()</code></a>
+to an appropriate value when saving a raster. This argument allows for
+finer “divisions” than just integer/float/double-float, so depending on
+the range of values in your raster, you can optimize file size by
+selecting the one that best matches the values in the raster. See the
+documentation for <a href="https://adamlilith.github.io/fasterRaster/reference/writeRaster.html"><code>writeRaster()</code></a>
+for more information.</p>
+<p>~ FINIS ~</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
