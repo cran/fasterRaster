@@ -14,7 +14,7 @@
 
 <meta name="date" content="2025-02-25" />
 
-<title>For developers: fasterRaster and GRASS Regions</title>
+<title>3-dimensional objects</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -237,68 +237,90 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">For developers: fasterRaster and GRASS
-Regions</h1>
+<h1 class="title toc-ignore">3-dimensional objects</h1>
 <h4 class="author">Adam B. Smith</h4>
 <h4 class="date">2025-02-25</h4>
 
 
 
-<p>A <strong>GRASS</strong> <em>region</em> is a data structure like a
-raster in that it is composed of a grid, but different in that “cells”
-in this grid do not contain values. Rather, their resolution and the
-extent of the region influence how rasters are imported, created,
-processed, and exported. In most cases, whenever a raster undergoes one
-of these processes using a <strong>GRASS</strong> module, the raster
-will be resampled and/or crop/extend it so that matches the region”s
-extent and resolution. If ignored, this can cause unintended side
-effects if the region’s geometry doesn’t match the raster being
-processed.</p>
-<p>Generally, most users of <strong>fasterRaster</strong> will not need
-to know how regions work because their management is handled
-automatically. This help page is provided to assist power users who may
-wish to use regions explicitly or develop their own applications based
-on <strong>fasterRaster</strong>.</p>
-<p>Each <strong>GRASS</strong> “location” typically has one active
-region. The extent and resolution of this region is initially set by the
-first raster that is imported into it.</p>
-<div id="functions-for-regions-in-fasterraster" class="section level3">
-<h3>Functions for regions in <strong>fasterRaster</strong></h3>
-<p>Properties of the current region can be obtained using the following
-functions (with no arguments):</p>
-<ul>
-<li><code>dim()</code> and <code>dim3d()</code>: Dimensions</li>
-<li><code>ext()</code>: Extent</li>
-<li><code>res()</code> and <code>res3d()</code>: Resolution</li>
-</ul>
-<p><strong>fasterRaster</strong> provides several hidden functions for
-managing regions:</p>
-<ul>
-<li><code>.region()</code>: Extent <em>and</em> dimensions/resolution of
-a region. This function is used by many other
-<strong>fasterRaster</strong> functions before raster processing to
-ensure the raster is not changed (by the region).</li>
-<li><code>.regionDim()</code>: Dimensions (number of rows and
-columns)</li>
-<li><code>.regionExt()</code>: Extent</li>
-<li><code>.regionRes()</code>: Resolution</li>
-</ul>
-<p>Most of the hidden functions can be used in three different ways: *
-No arguments: The function reports the respective value(s) (e.g.,
-<code>regionExt()</code> reports the extent of the region–same as
-<code>ext()</code> with no arguments). * With a <code>GRaster</code>,
-<code>GVector</code>, <code>SpatRaster</code>, <code>SpatVector</code>,
-or <code>sf</code> object: Resizes and/or resamples the region so it has
-the same extent and/or resolution as the spatial object. Note that
-vector objects do not have a resolution, so cannot be used in
-<code>.region*()</code> functions that resample the region’s resolution.
-* With numeric values (i.e., representing extent, resolution, or
-dimensions): Resize or resample the region so it has these dimensions.
-When a region’s extent is resized or resolution is changed, it will be
-extended to have the next-larger number of rows and/or columns so it can
-accommodate cells of the desired size.</p>
-<p>Regions are inherently 3-dimensional, but often have a single depth
-(i.e., one “layer” of cells).</p>
+<p><strong>fasterRaster</strong> has limited support for 3-dimensional
+<code>GRaster</code>s and <code>GVector</code>s. A <code>GRaster</code>
+is like a multi-layered raster, except that layers contain values in
+“voxels” (3-dimensional pixels), where each layer has a z-resolution, in
+addition to its normal x- and y-resolutions. These layers are called
+“depths”. A 3-dimensional vector has a z-dimension, so any point (i.e.,
+an actual point, or points that together define a line or polygon) has a
+third dimension. You can test if an object is 3-dimensional using
+<code>topology()</code>, <code>is.2d()</code>, or <code>is.3d()</code>,
+or by looking at its metadata (i.e., just enter the name of the object
+in <strong>R</strong> and look at what is displayed).</p>
+<p>Thus far, <em>no functions that handle 3-dimensional
+<code>GRaster</code>s or <code>GVector</code>s have been tested.</em>
+Some functions like <code>spatSample()</code> have arguments that allow
+you to do something with a z-component. Also, some of the “getter”
+functions can report information about the third dimension of a
+<code>GRaster</code> or <code>GVector</code>.</p>
+<p>Three-dimensional <code>GRaster</code>s and <code>GVector</code>s
+should (?… remember, no testing yet!) work with most functions. In some
+cases, the third dimension will be ignored or removed. You should get a
+warning in these cases.</p>
+<div id="fasterraster-functions-that-specifically-work-with-3-dimensional-objects" class="section level2">
+<h2><strong>fasterRaster</strong> functions that specifically work with
+3-dimensional objects</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Function</strong></th>
+<th><strong>Object type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>bottom()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="even">
+<td><code>dim3d()</code></td>
+<td><code>GRaster</code></td>
+</tr>
+<tr class="odd">
+<td><code>is.2d()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="even">
+<td><code>is.3d()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="odd">
+<td><code>ncell3d()</code></td>
+<td><code>GRaster</code></td>
+</tr>
+<tr class="even">
+<td><code>ndepth()</code></td>
+<td><code>GRaster</code></td>
+</tr>
+<tr class="odd">
+<td><code>res3d()</code></td>
+<td><code>GRaster</code></td>
+</tr>
+<tr class="even">
+<td><code>top()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="odd">
+<td><code>topology()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="even">
+<td><code>zext()</code></td>
+<td><code>GRaster</code> or <code>GVector</code></td>
+</tr>
+<tr class="odd">
+<td><code>zres()</code></td>
+<td><code>GRaster</code></td>
+</tr>
+</tbody>
+</table>
 <p>~ FINIS ~</p>
 </div>
 

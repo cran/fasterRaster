@@ -69,7 +69,7 @@
 #' * **Correction outside of *fasterRaster***: Before you convert the vector into **fasterRaster**'s `GVector` format, you can also try using the [terra::makeValid()] or [sf::st_make_valid()] tools to fix issues, then use `fast()`.
 #' * **Post-conversion to a `GVector`**: If you do get a vector loaded into `GVector` format, you can also use a set of **fasterRaster** vector-manipulation [tools][breakPolys] or [fillHoles()] to fix issues.
 #'
-#' @seealso [rgrass::read_RAST()] and [rgrass::read_VECT()], [vector cleaning][breakPolys], [fillHoles()], plus **GRASS** modules `v.in.ogr` (see `grassHelp("v.in.ogr")`) and `r.import` (see `grassHelp("r.import")`)
+#' @seealso \code{\link[rgrass]{read_RAST}} and \code{\link[rgrass]{read_VECT}}, [vector cleaning][breakPolys], [fillHoles()], plus **GRASS** modules `v.in.ogr` (see `grassHelp("v.in.ogr")`) and `r.import` (`grassHelp("r.import")`)
 #'
 #' @returns A `GRaster` or `GVector`.
 #'
@@ -96,6 +96,23 @@ methods::setMethod(
 		verbose = TRUE,
 		...
 	) {
+
+	### debugging
+	if (FALSE) {
+	
+		rastOrVect <- NULL
+		levels <- TRUE
+		extent <- NULL
+		correct <- TRUE
+		snap <- NULL
+		area <- NULL
+		steps <- 10
+		dropTable <- FALSE
+		resolve <- NA
+		verbose <- TRUE
+		dots <- list()
+	
+	}
 
 	if (is.na(faster("grassDir"))) stop("You must specify the folder in which GRASS is installed using faster().")
 
@@ -326,7 +343,7 @@ methods::setMethod(
 						output = src,
 						snap = thisSnap,
 						min_area = thisArea,
-						flags = c(.quiet(), "verbose", "overwrite", "t", correctTopoFlag),
+						flags = c("verbose", "overwrite", "t", "o", correctTopoFlag),
 						ignore.stderr = FALSE,
 						Sys_show.output.on.console = FALSE,
 						echoCmd = FALSE, # displays GRASS command
@@ -336,7 +353,8 @@ methods::setMethod(
 
 				valid <- !any(c(
 					grepl(run, pattern = "WARNING: The output contains topological errors"),
-					grepl(run, pattern = "Invalid argument")
+					grepl(run, pattern = "Invalid argument"),
+					run == "1"
 				))
 
 				if (valid) { # more thorough test... slower
@@ -456,10 +474,15 @@ methods::setMethod(
 							flags = c(.quiet(), "overwrite", "t", correctTopoFlag)
 						)
 						
-						info <- .vectInfo(src)
-						valid <- .validVector(info, table)
+						made <- .exists(src)
+						if (made) {
+							info <- .vectInfo(src)
+							valid <- .validVector(info, table)
+						} else {
+							valid <- FALSE
+						}
 
-						if (!valid & !is.na(resolve)) {
+						if (made & !valid & !is.na(resolve)) {
 
 							table <- NULL
 							src <- .aggDisaggVect(src, resolve = resolve, verbose = verbose)
@@ -470,10 +493,12 @@ methods::setMethod(
 
 						}
 
-						if (!valid & verbose & !dropTable) {
+						if (made & !valid & verbose & !dropTable) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries, ", sum(is.na(info$cats)), " invalid geometries, and ", nrow(table), " rows in its data table.")
-						} else if (!valid & verbose) {
+						} else if (made & !valid & verbose) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries and ", sum(is.na(info$cats)), " invalid geometries.")
+						} else if (!made) {
+							omnibus::say("   Failed to create vector.")
 						}
 
 						step <- step + 1L
@@ -506,10 +531,16 @@ methods::setMethod(
 							flags = c(.quiet(), "overwrite", "t", correctTopoFlag)
 						)
 						
-						info <- .vectInfo(src)
-						valid <- .validVector(info, table)
+						made <- .exists(src)
 
-						if (!valid & !is.na(resolve)) {
+						if (made) {
+							info <- .vectInfo(src)
+							valid <- .validVector(info, table)
+						} else {
+							valid <- FALSE
+						}
+
+						if (made & !valid & !is.na(resolve)) {
 
 							table <- NULL
 							src <- .aggDisaggVect(src, resolve = resolve, verbose = verbose)
@@ -520,10 +551,12 @@ methods::setMethod(
 
 						}
 
-						if (!valid & verbose & !dropTable) {
+						if (made & !valid & verbose & !dropTable) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries, ", sum(is.na(info$cats)), " invalid geometries, and ", nrow(table), " rows in its data table.")
-						} else if (!valid & verbose) {
+						} else if (made & !valid & verbose) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries and ", sum(is.na(info$cats)), " invalid geometries.")
+						} else if (!made) {
+							omnibus::say("   Failed to create vector.")
 						}
 						step <- step + 1L
 
@@ -559,12 +592,16 @@ methods::setMethod(
 							flags = c(.quiet(), "overwrite", "t", correctTopoFlag)
 						)
 						
-						if (!exists("table", inherits = TRUE)) table <- .vAsDataTable(src)
+						made <- .exists(src)
+						if (made) {
+							info <- .vectInfo(src)
+							valid <- .validVector(info, table)
+							if (!exists("table", inherits = TRUE)) table <- .vAsDataTable(src)
+						} else {
+							valid <- FALSE
+						}
 
-						info <- .vectInfo(src)
-						valid <- .validVector(info, table)
-
-						if (!valid & !is.na(resolve)) {
+						if (made & !valid & !is.na(resolve)) {
 
 							table <- NULL
 							src <- .aggDisaggVect(src, resolve = resolve, verbose = verbose)
@@ -575,10 +612,12 @@ methods::setMethod(
 
 						}
 
-						if (!valid & verbose & !dropTable) {
+						if (made & !valid & verbose & !dropTable) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries, ", sum(is.na(info$cats)), " invalid geometries, and ", nrow(table), " rows in its data table.")
-						} else if (!valid & verbose) {
+						} else if (made & !valid & verbose) {
 							omnibus::say("   Vector has ", info$nGeometries, " valid geometries and ", sum(is.na(info$cats)), " invalid geometries.")
+						} else if (!made) {
+							omnibus::say("   Failed to create vector.")
 						}
 						step <- step + 1L
 

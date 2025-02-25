@@ -1,8 +1,8 @@
 Package: fasterRaster
 Type: Package
 Title: Faster Raster and Spatial Vector Processing Using 'GRASS GIS'
-Version: 8.4.0.3
-Date: 2024-12-15
+Version: 8.4.0.5
+Date: 2025-02-25
 Authors@R: 
 	c(
 		person(
@@ -37,7 +37,7 @@ LazyData: true
 LazyLoad: yes
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-12-15 18:58:06 UTC; adame
+Packaged: 2025-02-25 19:06:30 UTC; asmith
 Author: Adam B. Smith [cre, aut] (<https://orcid.org/0000-0002-6420-1659>)
 Repository: CRAN
-Date/Publication: 2024-12-17 09:30:01 UTC
+Date/Publication: 2025-02-25 19:40:02 UTC
