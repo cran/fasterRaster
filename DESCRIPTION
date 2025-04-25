@@ -1,8 +1,8 @@
 Package: fasterRaster
 Type: Package
 Title: Faster Raster and Spatial Vector Processing Using 'GRASS GIS'
-Version: 8.4.0.5
-Date: 2025-02-25
+Version: 8.4.0.7
+Date: 2025-04-24
 Authors@R: 
 	c(
 		person(
@@ -23,8 +23,8 @@ Description: Processing of large-in-memory/large-on disk rasters and spatial
 	the 'OSGeoW4' installer version) of 'GRASS GIS' 8.0 or higher.
 Depends: R (>= 4.0.0)
 Imports: data.table (>= 1.14.8), DT, graphics, grDevices, methods,
-        omnibus (>= 1.2.11), rgrass (>= 0.3-9), rpanel, sf, shiny,
-        terra (>= 1.7), utils
+        omnibus (>= 1.2.15), rgrass (>= 0.3-9), sf, shiny, terra (>=
+        1.7), utils
 Suggests: knitr, rmarkdown
 License: GPL (>= 3)
 SystemRequirements: GRASS (>= 8)
@@ -37,7 +37,7 @@ LazyData: true
 LazyLoad: yes
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-02-25 19:06:30 UTC; asmith
+Packaged: 2025-04-25 16:18:36 UTC; adame
 Author: Adam B. Smith [cre, aut] (<https://orcid.org/0000-0002-6420-1659>)
 Repository: CRAN
-Date/Publication: 2025-02-25 19:40:02 UTC
+Date/Publication: 2025-04-25 17:10:02 UTC

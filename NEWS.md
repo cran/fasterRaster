@@ -1,3 +1,11 @@
+# fasterRaster 8.4.0.7 (2025-04-24)
+o Removed dependency on **rpanel** because its dependency on **tclk** did not work with **Docker** images. Replaced with version dependency on **omnibus**'s `screenRes()` function.  
+
+# fasterRaster 8.4.0.6 (2025-03-26)
+o `faster(debug = TRUE)` displays the **GRASS** command for each **GRASS** module called in a **fasterRaster** function.  
+o `GVector[i]` works for cases with long `i`s.  
+o Fixes to help pages.  
+
 # fasterRaster 8.4.0.5 (2025-02-25)
 o Added vignette "3-dimensional objects".  
 o `[` is faster.  
@@ -5,7 +13,7 @@ o `%in%` and `match()` work when `faster(useDataTable = FALSE)` and `table` argu
 o `extract()` is faster.  
 o `fast()` has better error catching for vectors.  
 o `spatSample()` is faster when `values` or `cats` is `TRUE`.  
-o Hopefully fixed some issues when linking to `rgrass` and `terra` documentation noted by R Bivand and R Hijmans.  
+o Fixes issues when linking to `rgrass` and `terra` documentation noted by R Bivand and R Hijmans.  
 
 # fasterRaster 8.4.0.3 (2024-12-15)
 
