@@ -18,12 +18,12 @@ library(data.table)
 library(fasterRaster)
 
 ## ----grassDir_examples, eval = FALSE------------------------------------------
-# grassDir <- "C:/Program Files/GRASS GIS 8.3" # Windows
-# grassDir <- "/Applications/GRASS-8.3.app/Contents/Resources" # Mac OS
+# grassDir <- "C:/Program Files/GRASS GIS 8.4" # Windows
+# grassDir <- "/Applications/GRASS-8.4.app/Contents/Resources" # Mac OS
 # grassDir <- "/usr/local/grass" # Linux
 
 ## ----grassDir, echo = FALSE---------------------------------------------------
-grassDir <- "C:/Program Files/GRASS GIS 8.3" # Windows
+grassDir <- "C:/Program Files/GRASS GIS 8.4" # Windows
 
 ## ----faster_grassDir, eval = FALSE--------------------------------------------
 # faster(grassDir = grassDir)

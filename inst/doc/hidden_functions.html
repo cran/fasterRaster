@@ -12,7 +12,7 @@
 
 <meta name="author" content="Adam B. Smith" />
 
-<meta name="date" content="2025-04-25" />
+<meta name="date" content="2025-06-19" />
 
 <title>For developers: Hidden fasterRaster functions</title>
 
@@ -240,7 +240,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">For developers: Hidden fasterRaster
 functions</h1>
 <h4 class="author">Adam B. Smith</h4>
-<h4 class="date">2025-04-25</h4>
+<h4 class="date">2025-06-19</h4>
 
 
 
@@ -260,9 +260,12 @@ error-checking and region re-definition is not conducted.</p>
 <div id="general" class="section level2">
 <h2>General</h2>
 <ul>
+<li><code>.addons()</code>: Tests if an addon is installed, and if not,
+attempts to install it.</li>
 <li><code>.backdoor()</code>: Calls [faster()] and sets
-<strong>GRASS</strong> folder to “C:/Program Files/GRASS GIS X.Y”, plus
-other options useful for development.</li>
+<strong>GRASS</strong> folder to
+“<code>C:/Program Files/GRASS GIS X.Y</code>”, plus other options useful
+for development.</li>
 <li><code>.fileExt()</code>: Get file extension</li>
 <li><code>.ls()</code>: Lists the <code>sources</code> of all objects in
 the active <strong>GRASS</strong> “project/location”</li>
@@ -354,7 +357,7 @@ strings.</li>
 </ul>
 </div>
 <div id="grass-projectslocations-and-mapsets" class="section level2">
-<h2><strong>GRASS</strong> “Projects/locations” and “mapsets”</h2>
+<h2><strong>GRASS</strong> “projects/locations” and “mapsets”</h2>
 <ul>
 <li><code>.locationCreate()</code> Make a connection to
 <strong>GRASS</strong> (i.e., start <strong>GRASS</strong> from within
@@ -367,10 +370,9 @@ strings.</li>
 a previously-created <strong>GRASS</strong> “location”</li>
 <li><code>.locations()</code>: List of all available “locations”</li>
 <li><code>.g.proj()</code>: Runs <strong>GRASS</strong>
-<code>g.proj</code> module to display projection of current
-“project”</li>
+<code>g.proj</code> tool to display projection of current “project”</li>
 <li><code>.g.region()</code>: Runs <strong>GRASS</strong>
-<code>g.region</code> module to display region of current “project”</li>
+<code>g.region</code> tool to display region of current “project”</li>
 <li><code>.mapset()</code>: <strong>GRASS</strong> “mapset” of an object
 or the active session</li>
 </ul>

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Adam B. Smith" />
 
-<meta name="date" content="2025-04-25" />
+<meta name="date" content="2025-06-19" />
 
 <title>Getting started with fasterRaster</title>
 
@@ -341,32 +341,32 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Getting started with fasterRaster</h1>
 <h4 class="author">Adam B. Smith</h4>
-<h4 class="date">2025-04-25</h4>
+<h4 class="date">2025-06-19</h4>
 
 
 
-<p><strong>fasterRaster</strong> interfaces with <strong>GRASS
-GIS</strong> to process rasters and spatial vector data. It is intended
-as an add-on to the <strong>terra</strong> and <strong>sf</strong>
-packages, and relies heavily upon them. For most rasters and vectors
-that are small or medium-sized in memory/disk, those packages will
-almost always be faster. They may also be faster for very large objects.
-But when they aren’t, <strong>fasterRaster</strong> can step in.</p>
+<p><strong>fasterRaster</strong> interfaces with <strong>GRASS</strong>
+to process rasters and spatial vector data. It is intended as an add-on
+to the <strong>terra</strong> and <strong>sf</strong> packages, and
+relies heavily upon them. For most rasters and vectors that are small or
+medium-sized in memory/disk, those packages will almost always be
+faster. They may also be faster for very large objects. But when they
+aren’t, <strong>fasterRaster</strong> can step in.</p>
 <div id="installing-fasterraster" class="section level2">
 <h2>Installing <strong>fasterRaster</strong></h2>
 <p>You probably already have <strong>fasterRaster</strong> installed on
 your computer, but if not, you can install the latest release version
 from CRAN using:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;fasterRaster&quot;</span>)</span></code></pre></div>
-<p>and the latest development version using:</p>
+<p>or the latest development version using:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;adamlilith/fasterRaster&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>(You may need to install the <code>remotes</code> package first.)</p>
 </div>
-<div id="installing-grass-gis" class="section level2">
-<h2>Installing <strong>GRASS GIS</strong></h2>
+<div id="installing-grass" class="section level2">
+<h2>Installing <strong>GRASS</strong></h2>
 <p><strong>fasterRaster</strong> uses <strong>GRASS</strong> to do its
 operations. You will need to install <strong>GRASS</strong> using the
-“stand-alone” installer, available through the <a href="https://grass.osgeo.org/">GRASS GIS</a>. <em>Be sure to use the
+“stand-alone” installer, available through the <a href="https://grass.osgeo.org/">GRASS</a>. <em>Be sure to use the
 “stand-alone” installer, not the “OSGeo4W” installer!</em></p>
 <p>Optional: A few functions in <strong>fasterRaster</strong> require
 <strong>GRASS</strong> “addon” modules, which do not come bundled with
@@ -384,52 +384,49 @@ attaching <strong>fasterRaster</strong> package to avoid function
 conflicts. The <strong>data.table</strong> package is not required, but
 you most surely will use at least one of the other two.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;terra&#39; was built under R version 4.4.3</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; terra 1.8.29</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;sf&#39; was built under R version 4.4.3</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;data.table&#39; was built under R version 4.4.3</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; terra 1.8.54</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Linking to GEOS 3.13.1, GDAL 3.10.2, PROJ 9.5.1; sf_use_s2() is TRUE</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;data.table&#39;</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:terra&#39;:</span></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;data.table&#39;</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:terra&#39;:</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;     shift</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="fu">library</span>(fasterRaster)</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; fasterRaster 8.4.0.7</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; To avoid conflicts between functions, please attach the `terra`, `sf`,</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; and `data.table` packages before attaching `fasterRaster` using, for</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; example, `library(terra)`.</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; For guides and table of contents, see `?fasterRaster`.</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;     shift</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">library</span>(fasterRaster)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; fasterRaster 8.4.1.0</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; To avoid conflicts between functions, please attach the `terra`, `sf`,</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; and `data.table` packages before attaching `fasterRaster` using, for</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; example, `library(terra)`.</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; For guides and table of contents, see `?fasterRaster`.</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;fasterRaster&#39;</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:data.table&#39;:</span></span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;fasterRaster&#39;</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:data.table&#39;:</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt;     %notin%</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:sf&#39;:</span></span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;     %notin%</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:sf&#39;:</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;     st_coordinates</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:terra&#39;:</span></span>
 <span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;     st_coordinates</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:terra&#39;:</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;     combineLevels</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:stats&#39;:</span></span>
 <span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt;     combineLevels</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:stats&#39;:</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt;     kernel</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:graphics&#39;:</span></span>
 <span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt;     kernel</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:graphics&#39;:</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt;     grid</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
 <span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt;     grid</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt;     rbind, xor</span></span></code></pre></div>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt;     rbind, xor</span></span></code></pre></div>
 <p>To begin, you need to tell <strong>fasterRaster</strong> the full
 file path of the folder where <strong>GRASS</strong> is installed on
 your system. Where this is well depend on your operating system and the
 version of <strong>GRASS</strong> installed. Three examples below show
 you what this might look like, but you may need to change the file path
 to match your case:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>grassDir <span class="ot">&lt;-</span> <span class="st">&quot;C:/Program Files/GRASS GIS 8.3&quot;</span> <span class="co"># Windows</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>grassDir <span class="ot">&lt;-</span> <span class="st">&quot;/Applications/GRASS-8.3.app/Contents/Resources&quot;</span> <span class="co"># Mac OS</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>grassDir <span class="ot">&lt;-</span> <span class="st">&quot;C:/Program Files/GRASS GIS 8.4&quot;</span> <span class="co"># Windows</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>grassDir <span class="ot">&lt;-</span> <span class="st">&quot;/Applications/GRASS-8.4.app/Contents/Resources&quot;</span> <span class="co"># Mac OS</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>grassDir <span class="ot">&lt;-</span> <span class="st">&quot;/usr/local/grass&quot;</span> <span class="co"># Linux</span></span></code></pre></div>
 <p>To tell <strong>fasterRaster</strong> where <strong>GRASS</strong> is
 installed, use the <code>faster()</code> function:</p>
