@@ -1,8 +1,8 @@
 Package: fasterRaster
 Type: Package
 Title: Faster Raster and Spatial Vector Processing Using 'GRASS'
-Version: 8.4.1.0
-Date: 2025-06-19
+Version: 8.4.1.1
+Date: 2025-11-18
 Authors@R: 
 	c(
 		person(
@@ -35,10 +35,10 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 LazyLoad: yes
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2025-06-20 00:17:38 UTC; adame
+Packaged: 2025-11-18 15:34:58 UTC; adame
 Author: Adam B. Smith [cre, aut] (ORCID:
     <https://orcid.org/0000-0002-6420-1659>)
 Repository: CRAN
-Date/Publication: 2025-06-20 02:20:02 UTC
+Date/Publication: 2025-11-18 17:10:02 UTC
