@@ -12,7 +12,7 @@
 
 <meta name="author" content="Adam B. Smith" />
 
-<meta name="date" content="2025-11-18" />
+<meta name="date" content="2026-04-17" />
 
 <title>For developers: Hidden fasterRaster functions</title>
 
@@ -240,7 +240,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">For developers: Hidden fasterRaster
 functions</h1>
 <h4 class="author">Adam B. Smith</h4>
-<h4 class="date">2025-11-18</h4>
+<h4 class="date">2026-04-17</h4>
 
 
 
@@ -288,7 +288,7 @@ attached or if a given number of hours has passed</li>
 <code>GRaster</code> or <code>GVector</code> exist?</li>
 <li><code>.ext()</code>: Extent from the <a href="https://adamlilith.github.io/fasterRaster/reference/sources.html"><code>sources()</code></a>
 name of a <code>GRaster</code> or <code>GVector</code></li>
-<li><code>.makeSourceNames()</code>: Makes one or more statistically
+<li><code>.makeSourceName()</code>: Makes one or more statistically
 unique strings that can be used as file names to represent rasters or
 vectors in <strong>GRASS</strong></li>
 <li><code>.plot()</code>: Plot using the <a href="https://adamlilith.github.io/fasterRaster/reference/sources.html"><code>sources()</code></a>
@@ -342,10 +342,6 @@ valid?</li>
 <ul>
 <li><code>.layerIndex()</code>: Gets the index of <code>GRaster</code>
 layers from a numeric, integer, character, or logical vector</li>
-<li><code>.makeGRaster()</code> and <code>.makeGVector()</code>: Make
-<code>GRaster</code>s or <code>GVector</code>s from a vector of
-<code>sources</code>, which are pointers to files in
-<strong>GRASS</strong></li>
 <li><code>.minVal()</code> and <code>.maxVal()</code>: Values in the
 <code>@minVal</code> and <code>@maxVal</code> slots in a
 <code>GRaster</code></li>
